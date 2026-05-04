@@ -26,3 +26,5 @@ mongoose.connect(MONGO_URI)
   });
 
 app.use("/api/medicine", medicineRoute);
+
+module.exports = app;
