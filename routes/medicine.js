@@ -2,6 +2,7 @@
 import Joi from 'joi'; 
 import express from 'express'
 import Medicine from '../models/medicine.js';
+import Fuse from 'fuse.js'
 
 const router = express.Router();
 
@@ -22,10 +23,22 @@ router.post("/",async (req , res) => {
 })
 
 router.get('/:generic_name',async (req, res)=>{
-    let medicine = await Medicine.findOne({generic_name:req.params.generic_name})
+    // let medicine = await Medicine.findOne({generic_name:req.params.generic_name})
 
-    if (!medicine) return res.status(400).send("invalid task id");
-    res.send(medicine);
+    // if (!medicine) return res.status(400).send("invalid task id");
+    // res.send(medicine);
+    const generic_name = req.params.generic_name
+    const medicines = await Medicine.find()
+
+    const fuse = new Fuse(medicines, {
+      keys: ["generic_name"],
+      threshold: 0.95, 
+      includeScore: true,
+    });
+    const result = fuse.search(generic_name)
+    if(result.length === 0) return res.status(400).send('Medicine not found in database.')
+
+      return res.status(200).send(result[0].item)
 })
 
 

@@ -16,7 +16,7 @@ app.get('/',(req,res)=>{
 const MONGO_URI=process.env.MONGO_URI;
 const PORT=process.env.PORT
 
-mongoose.connect(MONGO_URI)
+await mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB Atlas');
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
