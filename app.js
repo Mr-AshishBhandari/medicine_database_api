@@ -3,10 +3,12 @@ import express  from 'express';
 import mongoose  from "mongoose";
 import medicineRoute from './routes/medicine.js';
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 
 const app = express()
 app.use(express.json());
+app.use(cors());
 dotenv.config()
 
 app.get('/',(req,res)=>{
@@ -26,3 +28,5 @@ await mongoose.connect(MONGO_URI)
   });
 
 app.use("/api/medicine", medicineRoute);
+
+export default app;
