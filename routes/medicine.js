@@ -32,7 +32,7 @@ router.get('/:generic_name',async (req, res)=>{
 
     const fuse = new Fuse(medicines, {
       keys: ["generic_name"],
-      threshold: 0.45, 
+      threshold: 0.3, 
       includeScore: true,
     });
     const result = fuse.search(generic_name)
